@@ -1,0 +1,21 @@
+    def dfs_recursiva(grafo, vertice, visitados):
+        visitados.append(vertice)
+        for vizinho in grafo.vizinhos_do_vertice(vertice):
+            if vizinho not in visitados:
+                for t in range(len(grafo.A)):
+                    item = list(grafo.A.items())[t][1]
+                    if item[0] == vertice and list(grafo.A.items())[t][0] not in visitados:
+                        s1 = item[0]+'-'+vizinho
+                        visitados.append(grafo.aresta_entre_vertices(s1))
+                        break
+                    elif item[2] == vertice and list(grafo.A.items())[t][0] not in visitados:
+                        s2 = item[2] + '-' + vizinho
+                        visitados.append(grafo.aresta_entre_vertices(s2))
+                        break
+                grafo.dfs_recursiva(vizinho, visitados)
+
+    def dfs(grafo, vertice):
+        visitados = []
+        arestas = grafo.A.items()
+        grafo.dfs_recursiva(vertice, visitados)
+        return visitados
