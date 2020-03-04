@@ -19,3 +19,22 @@
         arestas = grafo.A.items()
         grafo.dfs_recursiva(vertice, visitados)
         return visitados
+
+    def vizinhos_do_vertice(self, vertice):
+        vizinhos = []
+        for t in range(len(self.A)):
+            arestas = list(self.A.items())[t][1]
+            if arestas[0] == vertice and arestas[2] not in vizinhos:
+                vizinhos.append(arestas[2])
+            elif arestas[2] == vertice and arestas[0] not in vizinhos:
+                vizinhos.append(arestas[0])
+        return vizinhos
+
+    def aresta_entre_vertices(self, aresta):
+        for c in range(len(self.A)):
+            a = list(self.A.items())[c][1]
+            a_inverso = a[2]+'-'+a[0]
+            if aresta == a:
+                return list(self.A.items())[c][0]
+            elif aresta == a_inverso:
+                return list(self.A.items())[c][0]
