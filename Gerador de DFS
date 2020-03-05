@@ -1,15 +1,37 @@
+  def vizinhos_do_vertice(self, vertice):
+        vizinhos = []
+        for t in range(len(self.A)):
+            arestas = list(self.A.items())[t][1]
+            compare_vertice1 = list(self.A.items())[t][1].split('-')[0]
+            compare_vertice2 = list(self.A.items())[t][1].split('-')[1]
+            if compare_vertice1 == vertice and compare_vertice2 not in vizinhos:
+                vizinhos.append(compare_vertice2)
+            elif compare_vertice2 == vertice and compare_vertice1 not in vizinhos:
+                vizinhos.append(compare_vertice1)
+        return vizinhos
+
+    def aresta_entre_vertices(self, aresta):
+        for c in range(len(self.A)):
+            a = list(self.A.items())[c][1]
+            a_inverso = list(self.A.items())[c][1][::-1]
+            if aresta == a:
+                return list(self.A.items())[c][0]
+            elif aresta == a_inverso:
+                return list(self.A.items())[c][0]
+
     def dfs_recursiva(grafo, vertice, visitados):
         visitados.append(vertice)
         for vizinho in grafo.vizinhos_do_vertice(vertice):
             if vizinho not in visitados:
                 for t in range(len(grafo.A)):
-                    item = list(grafo.A.items())[t][1]
-                    if item[0] == vertice and list(grafo.A.items())[t][0] not in visitados:
-                        s1 = item[0]+'-'+vizinho
+                    compare_vertice1 = list(grafo.A.items())[t][1].split('-')[0]
+                    compare_vertice2 = list(grafo.A.items())[t][1].split('-')[1]
+                    if compare_vertice1 == vertice and list(grafo.A.items())[t][0] not in visitados:
+                        s1 = compare_vertice1+'-'+vizinho
                         visitados.append(grafo.aresta_entre_vertices(s1))
                         break
-                    elif item[2] == vertice and list(grafo.A.items())[t][0] not in visitados:
-                        s2 = item[2] + '-' + vizinho
+                    elif compare_vertice2 == vertice and list(grafo.A.items())[t][0] not in visitados:
+                        s2 = compare_vertice2 + '-' + vizinho
                         visitados.append(grafo.aresta_entre_vertices(s2))
                         break
                 grafo.dfs_recursiva(vizinho, visitados)
@@ -19,22 +41,3 @@
         arestas = grafo.A.items()
         grafo.dfs_recursiva(vertice, visitados)
         return visitados
-
-    def vizinhos_do_vertice(self, vertice):
-        vizinhos = []
-        for t in range(len(self.A)):
-            arestas = list(self.A.items())[t][1]
-            if arestas[0] == vertice and arestas[2] not in vizinhos:
-                vizinhos.append(arestas[2])
-            elif arestas[2] == vertice and arestas[0] not in vizinhos:
-                vizinhos.append(arestas[0])
-        return vizinhos
-
-    def aresta_entre_vertices(self, aresta):
-        for c in range(len(self.A)):
-            a = list(self.A.items())[c][1]
-            a_inverso = a[2]+'-'+a[0]
-            if aresta == a:
-                return list(self.A.items())[c][0]
-            elif aresta == a_inverso:
-                return list(self.A.items())[c][0]
